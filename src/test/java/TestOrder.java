@@ -7,12 +7,48 @@ import org.openqa.selenium.WebDriver;
 //import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import static org.junit.Assert.assertEquals;
 
 import java.time.Duration;
 
-public class TestOrder {
-    private WebDriver driver;
-    OrderPage NewOrder;
+
+
+    @RunWith(Parameterized.class)
+    public class TestOrder {
+        private WebDriver driver;
+        OrderPage NewOrder;
+        boolean isUp; // если верхняя кнопка true, если нижняя false
+        String firstName;
+        String lastName;
+        String addressName;
+        String metro;
+        String number;
+        int rentTime;
+        String yourComment;
+        String color; //black or grey
+
+
+        public TestOrder(boolean isUp, String firstName, String lastName, String addressName, String metro, String number, int rentTime, String yourComment, String color) {
+            this.isUp = isUp;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.addressName = addressName;
+            this.metro = metro;
+            this.number = number;
+            this.rentTime = rentTime;
+            this.yourComment = yourComment;
+            this.color = color;
+        }
+        @Parameterized.Parameters
+        public static Object[] getInfo() {
+            return new Object[][]{
+                    {true, "Олег", "Самокатов", "Советская 60", "2", "88002353535", 1, "o______o", "black" },
+            };
+            }
+
+
 
     @Before
     public void setUp() {
@@ -28,34 +64,20 @@ public class TestOrder {
     }
     @Test
     //первый набор тест данных
-    public void checkOrder1() {
-        NewOrder.clickOrderButtonUp();
-        NewOrder.login("Олег", "Самокатов", "Советская 60", "88002353535");
-        NewOrder.clickMetroField1();
+    public void checkOrder() {
+        NewOrder.clickOrderButton(isUp);
+        NewOrder.login(firstName, lastName, addressName, number);
+        NewOrder.clickMetroField(metro);
         NewOrder.clickNextButton();
         NewOrder.setDeliveryDateField();
-        NewOrder.setRentalPeriodField1();
-        NewOrder.setColorField1();
-        NewOrder.setCommentField("o______o");
+        NewOrder.setRentalPeriodField(rentTime);
+        NewOrder.setColorField(color);
+        NewOrder.setCommentField(yourComment);
         NewOrder.clickOrderButtonInOrder();
         NewOrder.clickYesButton();
         NewOrder.printOrderInfo();
     }
-    @Test
-    //второй набор тест данных
-    public void checkOrder2() {
-        NewOrder.clickOrderButtonDown();
-        NewOrder.login("Игорь", "Штенге", "Ленина 40", "89049040404");
-        NewOrder.clickMetroField2();
-        NewOrder.clickNextButton();
-        NewOrder.setDeliveryDateField();
-        NewOrder.setRentalPeriodField2();
-        NewOrder.setColorField2();
-        NewOrder.setCommentField("^______^");
-        NewOrder.clickOrderButtonInOrder();
-        NewOrder.clickYesButton();
-        NewOrder.printOrderInfo();
-    }
+
     @After
     public void tearDown() {
         driver.quit();

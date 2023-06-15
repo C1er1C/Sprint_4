@@ -51,6 +51,11 @@ public class OrderPage {
         driver.findElement(cookieButton).click();
     }
     //метод для нажатия верхней кнопки заказать
+    public void clickOrderButton(boolean isUp) {
+        if(isUp)
+            clickOrderButtonUp();
+        else clickOrderButtonDown();
+    }
     public void clickOrderButtonUp() {
         driver.findElement(orderButtonUp).click();
     }
@@ -73,15 +78,10 @@ public class OrderPage {
         driver.findElement(addressField).sendKeys(addressName);
     }
     //метод заполнения поля метро
-    public void clickMetroField1() {
+    public void clickMetroField(String metro) {
         driver.findElement(metroField).click();
-        driver.findElement(By.xpath(".//button[@value='1']")).click();
+        driver.findElement(By.xpath(".//button[@value='"+metro+"']")).click();
     }
-    public void clickMetroField2() {
-        driver.findElement(metroField).click();
-        driver.findElement(By.xpath(".//button[@value='2']")).click();
-    }
-
     //метод заполнения поля номер телефона
     public void setPhoneNumField (String number) {
         driver.findElement(phoneNumField).sendKeys(number);
@@ -99,29 +99,21 @@ public class OrderPage {
     }
     //метод заполнения поля дата доставки
     public void setDeliveryDateField() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date();
         driver.findElement(deliveryDateField).click();
         driver.findElement(deliveryDateField).sendKeys(formatter.format(date));
         driver.findElement(deliveryDateField).sendKeys(Keys.ENTER);
     }
     //метод заполнения поля срок аренды
-    public void setRentalPeriodField1() {
+    public void setRentalPeriodField(int rentTime) {
         driver.findElement(rentalPeriodField).click();
-        driver.findElement(rentalPeriodField).findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div[1]")).click();
-        }
-        public void setRentalPeriodField2() {
-            driver.findElement(rentalPeriodField).click();
-            driver.findElement(rentalPeriodField).findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div[2]")).click();
+        driver.findElement(rentalPeriodField).findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div["+rentTime+"]")).click();
         }
         //метод заполнения поля цвета самоката
-        public void setColorField1() {
+        public void setColorField(String color) {
             driver.findElement(colorField);
-            driver.findElement(By.xpath("//*[@id=\"black\"]")).click();
-        }
-        public void setColorField2() {
-            driver.findElement(colorField);
-            driver.findElement(By.xpath("//*[@id=\"grey\"]")).click();
+            driver.findElement(By.xpath("//*[@id=\""+color+"\"]")).click();
         }
         //метод заполнения поля комментарии
         public void setCommentField(String comment) {
@@ -140,5 +132,4 @@ public class OrderPage {
             String text = driver.findElement(orderInfo).getText();
             System.out.println("Текст сообщения " + text);
         }
-
     }
