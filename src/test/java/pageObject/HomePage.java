@@ -14,7 +14,6 @@ public class HomePage {
     //локатор для кнопки куки
     private By cookieButton = By.id("rcc-confirm-button");
 
-
     public HomePage(WebDriver driver){
         this.driver = driver;
     }
@@ -27,8 +26,6 @@ public class HomePage {
         WebElement element = driver.findElement(questionList);
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
-
-
     //методы нажатия на кнопки с вопросами
     public void clickQuestions(int index) {
             driver.findElement(By.id("accordion__heading-" + index)).click();

@@ -1,53 +1,50 @@
-import pageObject.OrderPage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.chrome.ChromeDriver;
-//import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import static org.junit.Assert.assertEquals;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+//import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.chrome.ChromeOptions;
+import pageObject.OrderPage;
 
 import java.time.Duration;
 
+@RunWith(Parameterized.class)
+public class TestOrder {
+    private WebDriver driver;
+    OrderPage NewOrder;
+    boolean isUp; // если верхняя кнопка true, если нижняя false
+    String firstName;
+    String lastName;
+    String addressName;
+    String metro;
+    String number;
+    int rentTime;
+    String yourComment;
+    String color; //black or grey
 
 
-    @RunWith(Parameterized.class)
-    public class TestOrder {
-        private WebDriver driver;
-        OrderPage NewOrder;
-        boolean isUp; // если верхняя кнопка true, если нижняя false
-        String firstName;
-        String lastName;
-        String addressName;
-        String metro;
-        String number;
-        int rentTime;
-        String yourComment;
-        String color; //black or grey
+    public TestOrder(boolean isUp, String firstName, String lastName, String addressName, String metro, String number, int rentTime, String yourComment, String color) {
+        this.isUp = isUp;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addressName = addressName;
+        this.metro = metro;
+        this.number = number;
+        this.rentTime = rentTime;
+        this.yourComment = yourComment;
+        this.color = color;
+    }
 
-
-        public TestOrder(boolean isUp, String firstName, String lastName, String addressName, String metro, String number, int rentTime, String yourComment, String color) {
-            this.isUp = isUp;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.addressName = addressName;
-            this.metro = metro;
-            this.number = number;
-            this.rentTime = rentTime;
-            this.yourComment = yourComment;
-            this.color = color;
-        }
-        @Parameterized.Parameters
-        public static Object[] getInfo() {
-            return new Object[][]{
-                    {true, "Олег", "Самокатов", "Советская 60", "2", "88002353535", 1, "o______o", "black" },
-            };
-            }
-
+    @Parameterized.Parameters
+    public static Object[] getInfo() {
+        return new Object[][]{
+                {true, "Олег", "Самокатов", "Советская 60", "2", "88002353535", 1, "o______o", "black"},
+        };
+    }
 
 
     @Before
@@ -62,6 +59,7 @@ import java.time.Duration;
         NewOrder = new OrderPage(driver);
         NewOrder.clickCookie();
     }
+
     @Test
     //первый набор тест данных
     public void checkOrder() {
@@ -75,7 +73,7 @@ import java.time.Duration;
         NewOrder.setCommentField(yourComment);
         NewOrder.clickOrderButtonInOrder();
         NewOrder.clickYesButton();
-        NewOrder.printOrderInfo();
+        NewOrder.confirmOrderInfo();
     }
 
     @After

@@ -4,6 +4,9 @@ import org.openqa.selenium.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.junit.Assert.assertTrue;
+
+
 public class OrderPage {
     private WebDriver driver;
     // локатор для верхней кнопки заказать
@@ -127,9 +130,10 @@ public class OrderPage {
         public void clickYesButton() {
             driver.findElement(yesButton).click();
         }
-        //метод для проверки, что появляется текст об успешном создании заказа
-        public void printOrderInfo() {
-            String text = driver.findElement(orderInfo).getText();
-            System.out.println("Текст сообщения " + text);
-        }
+        //метод для проверки, что заказ оформлен
+    public void confirmOrderInfo() {
+        String text = driver.findElement(orderInfo).getText();
+        String textPart = "Заказ оформлен";
+        assertTrue(text.contains(textPart));
+    }
     }
